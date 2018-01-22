@@ -172,9 +172,12 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
     componentWrapper.measure((x, y, width, height, pageX, pageY) => {
       const fullWidth = pageX + tooltipContainerWidth
         + (width - tooltipContainerWidth) / 2;
-      const tooltipContainerX_final = fullWidth > window.width
+      let tooltipContainerX_final = fullWidth > window.width
         ? window.width - tooltipContainerWidth
         : pageX + (width - tooltipContainerWidth) / 2;
+      if( tooltipContainerX_final < 0 ) {
+        tooltipContainerX_final = 0;
+      }
       let tooltipContainerY_final = this.state.tooltipTriangleDown
         ? pageY - tooltipContainerHeight - 20
         : pageY + tooltipContainerHeight - 20;
@@ -290,8 +293,8 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
       <TouchableOpacity
         ref={this.wrapperRef}
         style={this.props.componentWrapperStyle}
-        onPress={this.props.onPress}
-        onLongPress={this.toggle}
+        onPress={this.toggle}
+        // onLongPress={this.toggle}
         delayLongPress={this.props.delayLongPress}
         activeOpacity={1.0}
       >
